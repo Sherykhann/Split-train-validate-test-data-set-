@@ -1,0 +1,46 @@
+# This code helps you split a local data folder into train and validation data. 
+
+import os
+import glob 
+import numpy as np 
+
+
+
+path = 'flowers\\daisy'
+#Read all the files inside our folder.
+if 
+daisy_files = [f for f in glob.glob('flowers\\daisy\\*.jpg')]
+
+files = daisy_files
+print(f'Total no of images {len(files)}')
+no_of_images = len(files)
+
+shuffle = np.random.permutation(no_of_images)
+
+# os.mkdir(os.path.join(path,'train'))
+# os.mkdir(os.path.join(path,'valid'))
+# #Create directories with label names.
+# for t in ['train','valid']:
+#     for folder in ['daisy/']:
+#          os.mkdir(os.path.join(path,t,folder))
+         
+         
+#Copy a small subset of images into the validation folder:
+no_valid_images = int(no_of_images * 0.2)
+
+
+for i in shuffle[:no_valid_images]:
+    folder = files[i].split(os.sep)[-2].split('.')[0]
+    image = files[i].split(os.sep)[-1]
+    os.rename(files[i],os.path.join(path,'valid',folder,image))
+    
+    
+    #Copy a small subset of images into the training folder:
+no_train_images= no_of_images-no_valid_images
+
+for i in shuffle[no_valid_images:]:
+    folder = files[i].split(os.sep)[-2].split('.')[0]
+    image = files[i].split(os.sep)[-1]
+    os.rename(files[i],os.path.join(path,'train',folder,image))
+    
+daisy_train_files = [f for f in glob.glob('flowers\\daisy\\train\\daisy\\*.jpg')]
